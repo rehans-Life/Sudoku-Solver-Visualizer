@@ -26,15 +26,7 @@ export function initialBoard() {
 }
 
 export function loadBoard() {
-  let board = [];
-
-  for (let i = 0; i < 9; i++) {
-    let row = [];
-    for (let j = 0; j < 9; j++) {
-      row.push(new Piece(0));
-    }
-    board.push(row);
-  }
+  let board = initialBoard();
 
   let a = 30;
 
