@@ -35,10 +35,6 @@
   box-shadow: #ff6314 0px -6px 8px inset;
 }
 
-.solvedMsg {
-  color: green !important;
-}
-
 @media (max-width: 1000px) {
   .container {
     flex-direction: column;
