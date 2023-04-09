@@ -1,9 +1,9 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import { copy, isValid, sudoku_solver } from "../algorithm";
 import { useState } from "react";
 import Cell from "../components/Cell";
 import Header from "../components/Header";
+import { initialBoard } from "../Utils/boards";
 
 export class Piece {
   constructor(val, isFilled = false, isSolved = false) {
@@ -11,76 +11,6 @@ export class Piece {
     this.isFilled = isFilled;
     this.isSolved = isSolved;
   }
-}
-
-export function initialBoard() {
-  let board = [];
-  for (let i = 0; i < 9; i++) {
-    let row = [];
-    for (let j = 0; j < 9; j++) {
-      row.push(new Piece(0));
-    }
-    board.push(row);
-  }
-  return board;
-}
-
-export function loadBoard() {
-  let board = initialBoard();
-
-  let a = 30;
-
-  while (a--) {
-    let i = Math.floor(Math.random() * 9);
-    let j = Math.floor(Math.random() * 9);
-    let val = Math.floor(Math.random() * 9) + 1;
-
-    if (isValid(val, i, j, board)) {
-      board[i][j] = new Piece(val, true, false);
-    }
-  }
-  return board;
-}
-
-export function solve_sudoku(board, setBoard, setDisabled, setMessage) {
-  let animations = [];
-  let boardCopy = [];
-  for (let i = 0; i < board.length; i++) {
-    let row = [];
-    for (let j = 0; j < board[i].length; j++) {
-      let cell = board[i][j];
-      if (cell.isSolved) {
-        row.push(new Piece(0));
-      } else {
-        row.push(new Piece(cell.val, cell.isFilled, cell.isSolved));
-      }
-    }
-    boardCopy.push(row);
-  }
-  setBoard(boardCopy);
-  setTimeout(() => {
-    let isSolved = sudoku_solver(copy(boardCopy), animations);
-    if (isSolved) {
-      for (
-        let i = Math.floor(animations.length / 2);
-        i < animations.length;
-        i++
-      ) {
-        setTimeout(() => {
-          if (i === animations.length - 1) {
-            setMessage(
-              `Your Sudoku Board was Solved in ${animations.length} Operations :)`
-            );
-            setDisabled(false);
-          }
-          let newBoard = animations[i];
-          setBoard(newBoard);
-        }, 100);
-      }
-    } else {
-      console.log("Cannot Be Solved");
-    }
-  }, 2000);
 }
 
 export default function Home() {
@@ -95,7 +25,7 @@ export default function Home() {
       <Head>
         <title>Sudoku Solver</title>
         <meta name="description" content="A Sudoku Solver Visualizer" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/sudoku.png" />
       </Head>
       <Header
         board={board}
@@ -105,9 +35,15 @@ export default function Home() {
         setMessage={setMessage}
       />
       <p
-        className={`${message.includes("Operations") && styles.solvedMsg}  ${
-          disabled && styles.solving
-        } ${styles.message}`}
+        className={`${
+          message.includes("Operations")
+            ? styles.solvedMsg
+            : disabled
+            ? styles.solving
+            : ""
+        }  
+          
+         ${styles.message}`}
       >
         {disabled ? "Your Sudoku Board is Being Solved...." : message}
       </p>

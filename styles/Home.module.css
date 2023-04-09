@@ -34,7 +34,7 @@
   font-weight: 700;
   cursor: pointer;
   border-radius: 5px;
-  background-color: rgb(94, 96, 109);
+  background: rgb(94, 96, 109);
   transition-property: all;
   transition-timing-function: ease-in;
   transition-duration: 200ms;

@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "../styles/Header.module.css";
-import { initialBoard, loadBoard, solve_sudoku } from "../pages";
+import { solve_sudoku } from "../Utils/animateAlgorithm";
+import { loadBoard, initialBoard } from "../Utils/boards";
 
 export default function Header({
   board,
